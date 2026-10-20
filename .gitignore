@@ -1,0 +1,7 @@
+# Generated media files
+downloads/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
