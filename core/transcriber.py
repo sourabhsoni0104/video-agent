@@ -6,7 +6,7 @@ import os
 from utils.audio_processor import AudioSegment
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "large-v3-turbo")
 _model= None
-
+SARVAM_API_MAX_DURATION=25
 SARVAM_API_KEY = os.getenv("SARVAM_API_KEY")
 SARVAM_STT_MODEL = os.getenv("SARVAM_STT_MODEL", "saaras:v4")
 SARVAM_API_URL = "https://api.sarvam.ai/speech-to-text"
