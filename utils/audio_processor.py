@@ -25,8 +25,6 @@ def download_youtube_audio(url :str) ->str:      #downloads audio from a YouTube
        filename = ydl.prepare_filename(info).replace('.webm', '.wav').replace('.m4a', '.wav')
    return filename
 
-data=download_youtube_audio("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-
 
 
 def convert_audio_to_wav(input_path: str) -> str:        #converts the audio into mono channel and 16kHz
@@ -48,8 +46,16 @@ def chunk_audio(wav_path: str, chunk_minutes: int = 10) -> list:
         chunk.export(chunk_path, format="wav" )
         chunks.append(chunk_path)
     return chunks
-data_final=convert_audio_to_wav(data)
-print(chunk_audio(data_final))
-os.remove(data)
-os.remove(data_final)
 
+def process_input(source: str) -> list:
+    if source.startswith("http://") or source.startswith("https://"):
+        print("Detected YouTube URL. Downloading audio...")
+        wav_path=download_youtube_audio(source)
+    else:
+        print("Detected local file. Converting to WAV...")
+        wav_path=convert_audio_to_wav(source)
+    print("Chunking audio...")
+    chunks=chunk_audio(wav_path)
+    os.remove(wav_path)     #only the chunks are needed from here on; the original local file is never touched
+    print(f"Audio ready - {len(chunks)} chunk(s) created.")
+    return chunks
